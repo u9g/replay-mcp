@@ -40,7 +40,14 @@ const server = Bun.serve({
           JSON.stringify(body.events, null, 2)
         );
 
-        await $`PUPPETEER_ARGS="--no-sandbox --disable-setuid-sandbox" rrvideo --input ${pathForJson} --output ./outputs/${UUID}.mp4`;
+        await $`rrvideo --input ${pathForJson} --output ./outputs/${UUID}.mp4`.env(
+          {
+            PUPPETEER_ARGS:
+              "--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage",
+            CHROME_ARGS: "--no-sandbox --disable-setuid-sandbox",
+            PUPPETEER_EXECUTABLE_PATH: "google-chrome-stable",
+          }
+        );
 
         const chat1 = await ai.models.generateContent({
           contents: [
