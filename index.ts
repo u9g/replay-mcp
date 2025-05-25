@@ -48,7 +48,7 @@ fastify.post(
     );
 
     // Convert Bun's $ command to exec
-    const command = `sudo -u rrvideo-user rrvideo --input ${pathForJson} --output ./outputs/${UUID}.mp4`;
+    const command = `rrvideo --input ${pathForJson} --output ./outputs/${UUID}.mp4`;
     try {
       fastify.log.info(`Executing command: ${command}`);
 
