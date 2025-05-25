@@ -34,8 +34,9 @@ try {
 fastify.post(
   "/api/process-recording",
   async (request: FastifyRequest, reply: FastifyReply) => {
-    console.log({ body: request.body });
-    const body: { events: any[]; name: string } = request.body as any;
+    const body: { events: any[]; name: string } = JSON.parse(
+      request.body as string
+    ) as any;
 
     const UUID = crypto.randomUUID();
 
