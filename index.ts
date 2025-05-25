@@ -40,7 +40,7 @@ const server = Bun.serve({
           JSON.stringify(body.events, null, 2)
         );
 
-        await $`rrvideo --input ${pathForJson} --output ./outputs/${UUID}.mp4`;
+        await $`PUPPETEER_ARGS="--no-sandbox --disable-setuid-sandbox" rrvideo --input ${pathForJson} --output ./outputs/${UUID}.mp4`;
 
         const chat1 = await ai.models.generateContent({
           contents: [
