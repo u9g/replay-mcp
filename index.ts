@@ -52,7 +52,7 @@ fastify.post(
     try {
       fastify.log.info(`Executing command: ${command}`);
 
-      const result = await execAsync(command, { env });
+      const result = await execAsync(command);
       fastify.log.info(`Command stdout: ${result.stdout}`);
       fastify.log.info(`Command stderr: ${result.stderr}`);
     } catch (error: any) {
