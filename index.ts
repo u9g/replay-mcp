@@ -48,19 +48,9 @@ fastify.post(
     );
 
     // Convert Bun's $ command to exec
-    const command = `rrvideo --input ${pathForJson} --output ./outputs/${UUID}.mp4`;
-    const env = {
-      ...process.env,
-      PUPPETEER_ARGS:
-        "--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage",
-      CHROME_ARGS: "--no-sandbox --disable-setuid-sandbox",
-    };
-
+    const command = `sudo -u rrvideo-user rrvideo --input ${pathForJson} --output ./outputs/${UUID}.mp4`;
     try {
       fastify.log.info(`Executing command: ${command}`);
-      fastify.log.info(
-        `Environment variables: ${JSON.stringify(env, null, 2)}`
-      );
 
       const result = await execAsync(command, { env });
       fastify.log.info(`Command stdout: ${result.stdout}`);
