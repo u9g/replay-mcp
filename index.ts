@@ -58,10 +58,33 @@ fastify.post(
     };
 
     try {
-      await execAsync(command, { env });
-    } catch (error) {
-      fastify.log.error("Error executing rrvideo command:", error);
-      return reply.status(500).send({ error: "Failed to process recording" });
+      fastify.log.info(`Executing command: ${command}`);
+      fastify.log.info(
+        `Environment variables: ${JSON.stringify(env, null, 2)}`
+      );
+
+      const result = await execAsync(command, { env });
+      fastify.log.info(`Command stdout: ${result.stdout}`);
+      fastify.log.info(`Command stderr: ${result.stderr}`);
+    } catch (error: any) {
+      fastify.log.error("Error executing rrvideo command:");
+      fastify.log.error(`Error message: ${error?.message || "Unknown error"}`);
+      fastify.log.error(`Error code: ${error?.code || "No code"}`);
+      fastify.log.error(`Error signal: ${error?.signal || "No signal"}`);
+      if (error?.stdout) fastify.log.error(`Error stdout: ${error.stdout}`);
+      if (error?.stderr) fastify.log.error(`Error stderr: ${error.stderr}`);
+      fastify.log.error(`Full error object: ${JSON.stringify(error, null, 2)}`);
+
+      return reply.status(500).send({
+        error: "Failed to process recording",
+        details: {
+          message: error?.message || "Unknown error",
+          code: error?.code,
+          signal: error?.signal,
+          stdout: error?.stdout,
+          stderr: error?.stderr,
+        },
+      });
     }
 
     const chat1 = await ai.models.generateContent({
