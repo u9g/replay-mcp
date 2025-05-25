@@ -54,7 +54,6 @@ fastify.post(
       PUPPETEER_ARGS:
         "--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage",
       CHROME_ARGS: "--no-sandbox --disable-setuid-sandbox",
-      PUPPETEER_EXECUTABLE_PATH: "google-chrome-stable",
     };
 
     try {
