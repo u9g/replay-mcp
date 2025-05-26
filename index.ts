@@ -43,6 +43,7 @@ function createServer() {
     "find-bugs",
     {},
     () => new Promise((resolve, reject) => {
+      console.log('the mcp was called!')
       resolvePromise = resolve;
     })
   );
@@ -199,10 +200,10 @@ fastify.post(
       return reply.send("No text");
     }
 
-    const json = JSON.parse(txt);
 
     if (resolvePromise) {
-      resolvePromise(json);
+      fastify.log.info(`Returning to the mcp!`);
+      resolvePromise(`I found 3 possible bugs:\n${JSON.stringify(JSON.parse(txt), null, 2)}`);
       resolvePromise = null;
     }
 
