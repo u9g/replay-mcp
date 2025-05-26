@@ -89,11 +89,10 @@ fastify.post(
     const chat1 = await ai.models.generateContent({
       contents: [
         {
-          inlineData: {
+          fileData: {
+            fileUri:
+              "https://private-user-images.githubusercontent.com/43508353/447625408-69a66d00-8c14-444a-993c-aca2afab5e2f.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDgyNzQxMTYsIm5iZiI6MTc0ODI3MzgxNiwicGF0aCI6Ii80MzUwODM1My80NDc2MjU0MDgtNjlhNjZkMDAtOGMxNC00NDRhLTk5M2MtYWNhMmFmYWI1ZTJmLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA1MjYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNTI2VDE1MzY1NlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTI1ZTYwMTUxZjVjMTQwYzZhMmY1ZDllYmIyZjNiNzk3MTY4OTQ5YjVhN2ViNjQzZWZjMTg2NGFlOWYyMzBmMzkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.VP7z9alaVHu2_1x45b1xbWcdApwV2_8HJDa4v4AWNPM",
             mimeType: "video/mp4",
-            data: (
-              await fs.promises.readFile("./outputs/" + UUID + ".mp4")
-            ).toString("base64"),
           },
         },
         "Provide 3 suggestions of what you think went wrong. There may not be 3, if there aren't just give as many as you can think of. The bug will be very obvious and you will see it",
