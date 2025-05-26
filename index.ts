@@ -5,6 +5,8 @@ import { join } from "path";
 import { GoogleGenAI, HarmBlockThreshold, HarmCategory } from "@google/genai";
 import Fastify, { type FastifyRequest, type FastifyReply } from "fastify";
 import cors from "@fastify/cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 const execAsync = promisify(exec);
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
