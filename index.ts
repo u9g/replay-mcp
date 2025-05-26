@@ -92,13 +92,14 @@ fastify.post(
           text: "Provide 3 suggestions of what you think went wrong. There may not be 3, if there aren't just give as many as you can think of. The bug will be very obvious and you will see it",
         },
         {
-          inlineData: {
-            data: await fs.promises.readFile(
-              "./outputs/" + UUID + ".mp4",
-              "base64"
-            ),
+          fileData: {
+            // data: await fs.promises.readFile(
+            //   "./outputs/" + UUID + ".mp4",
+            //   "base64"
+            // ),
+            fileUri:
+              "https://cdn.discordapp.com/attachments/704173764895834124/1376585594011910236/73e0c3a3-f14d-44ee-8f98-c9d888f820b8.mp4?ex=6835dcbd&is=68348b3d&hm=7f05f3a9fdf23888ec98fb6d94f5b1f4510ac2a3cbc1563d39be3b58b2bbafb6&",
             mimeType: "video/mp4",
-            displayName: "output.mp4",
           },
         },
       ],
