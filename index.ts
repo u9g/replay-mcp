@@ -6,6 +6,11 @@ import { GoogleGenAI, HarmBlockThreshold, HarmCategory } from "@google/genai";
 import Fastify, { type FastifyRequest, type FastifyReply } from "fastify";
 import cors from "@fastify/cors";
 import dotenv from "dotenv";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import z from "zod";
+import { Sessions, streamableHttp } from "fastify-mcp";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+
 dotenv.config();
 
 const execAsync = promisify(exec);
@@ -26,10 +31,37 @@ const fastify = Fastify({
   },
 });
 
+let resolvePromise: ((value: any) => void) | null = null;
+
+function createServer() {
+  const mcpServer = new McpServer({
+    name: "replay-recording-mcp",
+    version: "1.0.0",
+  });
+
+  mcpServer.tool(
+    "find-bugs",
+    {},
+    () => new Promise((resolve, reject) => {
+      resolvePromise = resolve;
+    })
+  );
+
+  return mcpServer.server;
+}
+
 // Register CORS plugin
 await fastify.register(cors, {
   origin: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+});
+
+fastify.register(streamableHttp, {
+  // Set to `true` if you want a stateful server
+  stateful: false,
+  mcpEndpoint: "/mcp",
+  sessions: new Sessions<StreamableHTTPServerTransport>(),
+  createServer,
 });
 
 // Create directories
@@ -161,7 +193,20 @@ fastify.post(
     fs.promises.rm(pathForJson);
     fs.promises.rm(join("outputs", UUID + ".mp4"));
 
-    return reply.send(chat1.text);
+    const txt = chat1.text
+
+    if (!txt) {
+      return reply.send("No text");
+    }
+
+    const json = JSON.parse(txt);
+
+    if (resolvePromise) {
+      resolvePromise(json);
+      resolvePromise = null;
+    }
+
+    return reply.send(txt);
   }
 );
 
