@@ -190,8 +190,8 @@ fastify.post(
     });
 
     // Clean up files
-    fs.promises.rm(pathForJson);
-    fs.promises.rm(join("outputs", UUID + ".mp4"));
+    await fs.promises.rm(pathForJson);
+    await fs.promises.rm(join("outputs", UUID + ".mp4"));
 
     const txt = chat1.text
 
