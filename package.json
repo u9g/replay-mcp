@@ -17,6 +17,7 @@
     "@fastify/cors": "^8.4.0",
     "@fastify/multipart": "^8.0.0",
     "@google/genai": "^1.0.1",
+    "dotenv": "^16.5.0",
     "fastify": "^4.24.0",
     "pino-pretty": "^13.0.0"
   }

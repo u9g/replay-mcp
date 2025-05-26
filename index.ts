@@ -91,9 +91,9 @@ fastify.post(
         {
           inlineData: {
             mimeType: "video/mp4",
-            data: await fs.promises.readFile("./outputs/" + UUID + ".mp4", {
-              encoding: "base64",
-            }),
+            data: (
+              await fs.promises.readFile("./outputs/" + UUID + ".mp4")
+            ).toString("base64"),
           },
         },
         "Provide 3 suggestions of what you think went wrong. There may not be 3, if there aren't just give as many as you can think of. The bug will be very obvious and you will see it",
