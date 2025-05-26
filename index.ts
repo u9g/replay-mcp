@@ -15,7 +15,15 @@ const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 // Create Fastify instance
 const fastify = Fastify({
-  logger: true,
+  logger: {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
+      },
+    },
+  },
 });
 
 // Register CORS plugin
