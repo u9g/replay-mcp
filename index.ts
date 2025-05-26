@@ -14,9 +14,16 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 dotenv.config();
 
 const execAsync = promisify(exec);
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+const GOOGLE_CLOUD_PROJECT = process.env.GOOGLE_CLOUD_PROJECT;
+const GOOGLE_CLOUD_LOCATION = process.env.GOOGLE_CLOUD_LOCATION || 'global';
+
+
+const ai = new GoogleGenAI({
+  vertexai: true,
+  project: GOOGLE_CLOUD_PROJECT,
+  location: GOOGLE_CLOUD_LOCATION,
+});
 
 // Create Fastify instance
 const fastify = Fastify({
@@ -134,7 +141,7 @@ fastify.post(
           },
         },
       ],
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-pro-preview-05-06",
       config: {
         maxOutputTokens: 2000,
         temperature: 1,
@@ -203,7 +210,12 @@ fastify.post(
 
     if (resolvePromise) {
       fastify.log.info(`Returning to the mcp!`);
-      resolvePromise(`I found 3 possible bugs:\n${JSON.stringify(JSON.parse(txt), null, 2)}`);
+      resolvePromise({
+        content: [{
+          type: "text",
+          text: `I found 3 possible bugs:\n${JSON.stringify(JSON.parse(txt), null, 2)}. Prompt the user about whether to fix problem a, b, or c, and then once told, fix the problem.`
+        }]
+      });
       resolvePromise = null;
     }
 
