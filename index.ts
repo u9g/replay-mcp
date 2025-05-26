@@ -135,16 +135,16 @@ fastify.post(
         responseMimeType: "application/json",
         responseSchema: {
           "$schema": "http://json-schema.org/draft-07/schema#",
-          "type": "OBJECT",
+          "type": "object",
           "properties": {
             "choice1": {
-              "type": "STRING"
+              "type": "string"
             },
             "choice2": {
-              "type": "STRING"
+              "type": "string"
             },
             "choice3": {
-              "type": "STRING"
+              "type": "string"
             }
           },
           "required": [
