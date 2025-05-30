@@ -41,6 +41,8 @@ export function transform(replay: T.eventWithTime[]) {
                 output.push(`User clicked repeatedly in a short period of time, on a node with no corresponding React fiber.`);
             } else if (pkt.name === 'dom-mutation') {
                 output.push(`Dom mutation performed.`);
+            } else if (pkt.name === 'media-load-error') {
+                output.push(`Media load error on url: \`${pkt.data.url}\`. (In component: ${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}).`);
             }
         }
     }
