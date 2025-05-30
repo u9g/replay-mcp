@@ -1,6 +1,6 @@
 // import fs from "fs";
 import * as T from "@rrweb/types";
-import type { CustomEvent } from "/Users/jasonlernerman/code/todo-app-vite/src/App.tsx"
+import type { CustomEvent } from "/Users/jasonlernerman/code/todo-app-vite/src/rrweb.tsx"
 
 // const replay = JSON.parse(fs.readFileSync("./saved_recordings/recording.json", "utf8")) as T.eventWithTime[];
 
@@ -35,6 +35,10 @@ export function transform(replay: T.eventWithTime[]) {
                 output.push(`User clicked on a dom node with no corresponding React component.`);
             } else if (pkt.name === 'no-view-change-after-click') {
                 output.push(`No view change after click on the component (${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}).`);
+            } else if (pkt.name === 'rage-click') {
+                output.push(`User rage-clicked on the react component (${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}).`);
+            } else if (pkt.name === 'rage-click-with-no-react-fiber') {
+                output.push(`User rage-clicked on a node with no corresponding React fiber.`);
             }
         }
     }
