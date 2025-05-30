@@ -136,7 +136,7 @@ fastify.post(
     //   resolvePromise = null;
     // }
 
-    recentBugContent = `Recent recorded replay description leading up to triggering event:\n\`\`\`event_transcript\n${transform(body.events)}\n\`\`\`\n\nBased on the event transcript, fix the bug.`
+    recentBugContent = `Recent recorded replay description leading up to triggering event:\n\`\`\`event_transcript\n${transform(body.events)}\n\`\`\`\n\nBased on the event transcript, fix the bug. Whenever providing options, label them a, b, and c and ask the user which task to continue forward with.`
 
     return reply.send("OK");
   }
