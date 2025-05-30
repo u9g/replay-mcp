@@ -36,11 +36,11 @@ export function transform(replay: T.eventWithTime[]) {
             } else if (pkt.name === 'no-view-change-after-click') {
                 output.push(`No view change after click on the component (${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}).`);
             } else if (pkt.name === 'rage-click') {
-                output.push(`User rage-clicked on the react component (${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}).`);
+                output.push(`User clicked repeatedly in a short period of time, and their last click was on the react component (${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}).`);
             } else if (pkt.name === 'rage-click-with-no-react-fiber') {
-                output.push(`User rage-clicked on a node with no corresponding React fiber.`);
+                output.push(`User clicked repeatedly in a short period of time, on a node with no corresponding React fiber.`);
             } else if (pkt.name === 'dom-mutation') {
-                output.push(`User performed a dom mutation.`);
+                output.push(`Dom mutation performed.`);
             }
         }
     }
