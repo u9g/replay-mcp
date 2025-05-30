@@ -13,6 +13,7 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import * as T from "@rrweb/types";
 import { generateText } from "ai"
 import { openai } from "@ai-sdk/openai"
+import { transform } from "./transformer";
 
 
 dotenv.config();
@@ -42,7 +43,7 @@ const fastify = Fastify({
   },
 });
 
-let resolvePromise: ((value: any) => void) | null = null;
+let recentBugContent = "No recent bug found."
 
 function createServer() {
   const mcpServer = new McpServer({
@@ -51,12 +52,18 @@ function createServer() {
   });
 
   mcpServer.tool(
-    "find-bugs",
-    {},
-    () => new Promise((resolve, reject) => {
-      console.log('the mcp was called!')
-      resolvePromise = resolve;
-    })
+    "fix-recent-bug",
+    "Fix the most recent bug in the codebase",
+    async function () {
+      return {
+        content: [
+          {
+            type: "text",
+            text: recentBugContent
+          }
+        ]
+      };
+    }
   );
 
   return mcpServer.server;
@@ -129,6 +136,8 @@ fastify.post(
     //   });
     //   resolvePromise = null;
     // }
+
+    recentBugContent = `Recent recorded replay description leading up to triggering event:\n\`\`\`event_transcript\n${transform(body.events)}\n\`\`\`\n\nBased on the event transcript, fix the bug.`
 
     return reply.send("OK");
   }
