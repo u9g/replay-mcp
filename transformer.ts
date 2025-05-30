@@ -43,6 +43,10 @@ export function transform(replay: T.eventWithTime[]) {
                 output.push(`Dom mutation performed.`);
             } else if (pkt.name === 'media-load-error') {
                 output.push(`Media load error on url: \`${pkt.data.url}\`. (In component: ${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}).`);
+            } else if (pkt.name === 'error') {
+                output.push(`Error:\n\`\`\`\n${pkt.data.error}\n\`\`\`\n\nIn component:\n\`\`\`\n${pkt.data.componentStack}\n\`\`\`\n\n.`);
+            } else if (pkt.name === 'xhr-network-error') {
+                output.push(`Xhr network error on url: \`${pkt.data.url}\`, status: ${pkt.data.status}.\nError:\n\`\`\`\n${pkt.data.error}\n\`\`\`\n\n`);
             }
         }
     }
