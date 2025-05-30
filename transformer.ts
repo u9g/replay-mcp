@@ -6,7 +6,7 @@ import type { CustomEvent } from "/Users/jasonlernerman/code/todo-app-vite/src/r
 
 
 export function transform(replay: T.eventWithTime[]) {
-    let output: string[] = []
+    let output: string[] = ["Whenever providing options, label them a, b, and c and ask the user which task to continue forward with."]
 
     for (const event of replay) {
         if (event.type === T.EventType.IncrementalSnapshot) {
@@ -36,7 +36,7 @@ export function transform(replay: T.eventWithTime[]) {
             } else if (pkt.name === 'no-view-change-after-click') {
                 output.push(`No view change after click on the component (${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}).`);
             } else if (pkt.name === 'rage-click') {
-                output.push(`User clicked repeatedly in a short period of time, and their last click was on the react component (${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}). First, decide if this was a bug. If not, think of ways to make it so they don't have to click this much and offer them to the user in the form of three options labeled a, b, and c. Then ask the user which task to continue forward with.`);
+                output.push(`User clicked repeatedly in a short period of time, and their last click was on the react component (${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}). First, decide if this was a bug. If not, think of ways to make it so they don't have to click this much and offer them to the user in the form of three options. Then ask the user which task to continue forward with.`);
             } else if (pkt.name === 'rage-click-with-no-react-fiber') {
                 output.push(`User clicked repeatedly in a short period of time, on a node with no corresponding React fiber.`);
             } else if (pkt.name === 'dom-mutation') {
