@@ -39,6 +39,8 @@ export function transform(replay: T.eventWithTime[]) {
                 output.push(`User rage-clicked on the react component (${pkt.data.componentStack.map(x => x ?? "?unknown component?").join(" > ")}).`);
             } else if (pkt.name === 'rage-click-with-no-react-fiber') {
                 output.push(`User rage-clicked on a node with no corresponding React fiber.`);
+            } else if (pkt.name === 'dom-mutation') {
+                output.push(`User performed a dom mutation.`);
             }
         }
     }
